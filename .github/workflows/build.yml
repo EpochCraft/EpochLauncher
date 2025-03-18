@@ -47,7 +47,7 @@ jobs:
           zip -r ${{ matrix.os }}-${{steps.short_sha.outputs.sha8}}.zip dist/
 
       - name: Upload Build Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.os }}-${{steps.short_sha.outputs.sha8}}
           path: ${{ matrix.os }}-${{steps.short_sha.outputs.sha8}}.zip

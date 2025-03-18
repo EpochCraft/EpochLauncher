@@ -1,20 +1,20 @@
-name: Build
+name: Build and Release
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  release:
+  build:
+    name: Build on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-
-    permissions:
-      contents: write
-
     strategy:
       matrix:
+        # You can extend this matrix to include an "arch" value as well.
         os: [macos-latest, ubuntu-latest, windows-latest]
-
     steps:
-      - name: Check out Git repository
+      - name: Check out Code
         uses: actions/checkout@v3
 
       - name: Set up Node
@@ -29,10 +29,60 @@ jobs:
 
       - name: Install Dependencies
         run: npm ci
-        shell: bash
 
       - name: Build
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run dist
-        shell: bash
+
+      - name: Archive Build
+        # This creates a zip file with the build output. Adjust the "dist/" folder if needed.
+        run: zip -r myapp-${{ matrix.os }}.zip dist/
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: myapp-${{ matrix.os }}
+          path: myapp-${{ matrix.os }}.zip
+
+  release:
+    name: Create GitHub Prerelease and Upload Artifacts
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: ./artifacts
+
+      - name: Generate Changelog
+        id: generate_changelog
+        run: |
+          # Generate a changelog (requires auto-changelog installed as a dev dependency)
+          npx auto-changelog --latest --unreleased
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          cat CHANGELOG.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        id: create_release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ github.run_number }}
+          name: "Release v${{ github.run_number }}"
+          prerelease: true
+          body: ${{ steps.generate_changelog.outputs.changelog }}
+
+      - name: Upload Individual Release Assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Iterate over each artifact zip file in the artifacts folder.
+          # Each file is uploaded separately so users can select by OS (or arch).
+          for file in $(find ./artifacts -type f -name "*.zip"); do
+            asset_name=$(basename "$file")
+            echo "Uploading $asset_name"
+            curl --fail -X POST \
+              -H "Authorization: token ${GITHUB_TOKEN}" \
+              -H "Content-Type: application/zip" \
+              --data-binary @"$file" \
+              "${{ steps.create_release.outputs.upload_url }}?name=${asset_name}"
+          done

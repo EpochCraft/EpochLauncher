@@ -5,7 +5,6 @@ on: push
 jobs:
   release:
     runs-on: ${{ matrix.os }}
-
     permissions:
       contents: write
 
@@ -19,7 +18,7 @@ jobs:
 
       - name: Get short SHA
         id: short_sha
-        run: echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
+        run: echo "sha8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
 
       - name: Set up Node
         uses: actions/setup-node@v3
@@ -41,13 +40,18 @@ jobs:
         run: npm run dist
         shell: bash
 
-      - name: Archive Build
-        run: |
-          # Archive the build output into a zip file. Adjust the "dist" directory if needed.
-          zip -r ${{ matrix.os }}-${{steps.short_sha.outputs.sha8}}.zip dist/
+      - name: Archive Build on Linux and macOS
+        if: runner.os != 'Windows'
+        run: zip -r "${{ matrix.os }}-${{ steps.short_sha.outputs.sha8 }}.zip" dist/
+        shell: bash
+
+      - name: Archive Build on Windows
+        if: runner.os == 'Windows'
+        run: Compress-Archive -Path .\dist\* -DestinationPath "${{ matrix.os }}-${{ steps.short_sha.outputs.sha8 }}.zip"
+        shell: powershell
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os }}-${{steps.short_sha.outputs.sha8}}
-          path: ${{ matrix.os }}-${{steps.short_sha.outputs.sha8}}.zip
+          name: ${{ matrix.os }}-${{ steps.short_sha.outputs.sha8 }}
+          path: ${{ matrix.os }}-${{ steps.short_sha.outputs.sha8 }}.zip

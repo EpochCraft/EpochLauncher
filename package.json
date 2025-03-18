@@ -1,13 +1,13 @@
 {
-  "name": "helioslauncher",
+  "name": "epochlauncher",
   "version": "2.2.1",
-  "productName": "Helios Launcher",
+  "productName": "Epoch Launcher",
   "description": "Modded Minecraft Launcher",
-  "author": "Daniel Scalzi (https://github.com/dscalzi/)",
+  "author": "Henry Walter (forked from Daniel Scalzi (https://github.com/dscalzi/))",
   "license": "UNLICENSED",
-  "homepage": "https://github.com/dscalzi/HeliosLauncher",
+  "homepage": "https://github.com/EpochCraft/EpochLauncher",
   "bugs": {
-    "url": "https://github.com/dscalzi/HeliosLauncher/issues"
+    "url": "https://github.com/EpochCraft/EpochLauncher/issues"
   },
   "private": true,
   "main": "index.js",

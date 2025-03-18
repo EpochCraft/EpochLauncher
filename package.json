@@ -13,7 +13,7 @@
   "main": "index.js",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder build --publish \"onTagOrDraft\"",
+    "dist": "electron-builder build --publish \"onTagOrDraft\" ",
     "dist:win": "npm run dist -- -w",
     "dist:mac": "npm run dist -- -m",
     "dist:linux": "npm run dist -- -l",
@@ -46,6 +46,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dscalzi/HeliosLauncher.git"
+    "url": "git+https://github.com/EpochCraft/EpochLauncher.git"
   }
 }

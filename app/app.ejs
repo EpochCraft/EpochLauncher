@@ -1,6 +1,40 @@
+<script src="https://js-de.sentry-cdn.com/f6e6601dd7f544cdce120404efe30ec1.min.js" crossorigin="anonymous"></script>
+<script
+  src="https://browser.sentry-cdn.com/9.11.0/bundle.tracing.replay.min.js"
+  integrity="sha384-DvT4IoA7shaGiZ1Bk9PKOvTOBAsNpcjwMI3dnU5d6R34GppDL1f+gH2JhKS9yZ84"
+  crossorigin="anonymous"
+></script>
+
+<script>
+    Sentry.init({
+  dsn: "https://f6e6601dd7f544cdce120404efe30ec1@o4508540561719296.ingest.de.sentry.io/4509100646858832",
+  // this assumes your build process replaces `process.env.npm_package_version` with a value
+  release: "epochlauncher@" + (navigator.userAgent.match(/EpochLauncher\/([\d.]+)/) || ["1.0"])[1],
+
+  replaysSessionSampleRate: 1,
+
+  // If the entire session is not sampled, use the below sample rate to sample
+  // sessions when an error occurs.
+  replaysOnErrorSampleRate: 1.0,
+
+  integrations: [
+    Sentry.replayIntegration({
+      // Additional SDK configuration goes in here, for example:
+      maskAllText: false,
+      blockAllMedia: false,
+    }),
+  ],
+
+  // We recommend adjusting this value in production, or using tracesSampler
+  // for finer control
+  tracesSampleRate: 1.0
+});
+
+</script>
+
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8" http-equiv="Content-Security-Policy" content="script-src 'self' 'sha256-In6B8teKZQll5heMl9bS7CESTbGvuAt3VVV86BUQBDk='"/>
+
     <title><%= lang('app.title') %></title>
     <script src="./assets/js/scripts/uicore.js"></script>
     <script src="./assets/js/scripts/uibinder.js"></script>
@@ -40,7 +74,7 @@
     <div id="loadingContainer">
         <div id="loadingContent">
             <div id="loadSpinnerContainer">
-                <img id="loadCenterImage" src="assets/images/LoadingSeal.png">
+                <img id="loadCenterImage" src="https://raw.githubusercontent.com/EpochCraft/EpochLauncher/refs/heads/master/app/assets/images/LoadingSeal.png">
             </div>
         </div>
     </div>

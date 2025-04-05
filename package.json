@@ -1,6 +1,6 @@
 {
   "name": "epochlauncher",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "productName": "Epoch Launcher",
   "description": "Modded Minecraft Launcher",
   "author": "Henry Walter (forked from Daniel Scalzi (https://github.com/dscalzi/))",
@@ -24,6 +24,8 @@
   },
   "dependencies": {
     "@electron/remote": "^2.1.2",
+    "@sentry/cli": "^2.43.0",
+    "@sentry/electron": "^5.12.0",
     "adm-zip": "^0.5.16",
     "discord-rpc-patch": "^4.0.1",
     "ejs": "^3.1.10",

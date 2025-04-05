@@ -314,7 +314,7 @@
             <div id="settingsAboutCurrentContainer">
                 <div id="settingsAboutCurrentContent">
                     <div id="settingsAboutCurrentHeadline">
-                        <img id="settingsAboutLogo" src="./assets/images/SealCircle.png">
+                        <img id="settingsAboutLogo" src="https://raw.githubusercontent.com/EpochCraft/EpochLauncher/refs/heads/master/app/assets/images/SealCircle.ico">
                         <span id="settingsAboutTitle"><%- lang('settings.aboutTitle', { appName: lang('app.title') }) %></span>
                     </div>
                     <div id="settingsAboutCurrentVersion">
@@ -389,5 +389,15 @@
             </div>
         </div>
     </div>
+    <button class="settingsChangelogLabel" id="errorButton" onclick="causeError()" disabled hidden>Trigger Error (Debug)</button>
     <script src="./assets/js/scripts/settings.js"></script>
+    <script>
+        function makeButtonVisible() {
+            document.getElementById('errorButton').disabled = false;
+            document.getElementById('errorButton').hidden = false;
+        }
+    function causeError() {
+        dds()
+    }
+</script>
 </div>

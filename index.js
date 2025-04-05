@@ -1,3 +1,9 @@
+const Sentry = require('@sentry/electron/main')
+
+Sentry.init({
+    dsn: 'https://f6e6601dd7f544cdce120404efe30ec1@o4508540561719296.ingest.de.sentry.io/4509100646858832',
+})
+
 const remoteMain = require('@electron/remote/main')
 remoteMain.initialize()
 

@@ -11,7 +11,7 @@
   // this assumes your build process replaces `process.env.npm_package_version` with a value
   release: "epochlauncher@" + (navigator.userAgent.match(/EpochLauncher\/([\d.]+)/) || ["1.0"])[1],
 
-  replaysSessionSampleRate: 1,
+  replaysSessionSampleRate: 0.1,
 
   // If the entire session is not sampled, use the below sample rate to sample
   // sessions when an error occurs.

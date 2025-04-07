@@ -42,9 +42,9 @@
     "toml": "^3.0.0"
   },
   "devDependencies": {
-    "electron": "^33.2.1",
-    "electron-builder": "^25.1.8",
-    "eslint": "^8.57.1"
+    "electron": "^29.1.0",
+    "electron-builder": "^24.13.3",
+    "eslint": "^8.57.0"
   },
   "repository": {
     "type": "git",
